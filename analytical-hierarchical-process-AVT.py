@@ -85,7 +85,7 @@ def input_to_grades_dict_for_alternatives(input_text, alternatives):
 
 def app():
     
-    st.title('Analytical Hierarchical Network with Criteria-Alternative Relationships')
+    st.title('Analytical Hierarchical Process with Criteria-Alternative Relationships')
 
     criteria_achievability_input = st.text_input('Enter criteria separated by comma', 'Higher revenue, Higher profit, Minimal environmental footprint, Social responsibility').split(',')
     criteria_achievability_input = [c.strip() for c in criteria_achievability_input]
