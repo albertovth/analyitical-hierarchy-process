@@ -82,10 +82,54 @@ def input_to_grades_dict_for_alternatives(input_text, alternatives):
 
    return grades
 
+def draw_hierarchy_diagram():
+    G = nx.DiGraph()
+
+    
+    edges = [
+        
+        ("Project 1", "Social responsibility"),
+        ("Project 2", "Higher profit"),
+        ("Project 2", "Minimal environmental footprint"),
+        ("Project 3", "Higher profit"),
+        ("Project 4", "Higher revenue"),
+        ("Project 5", "Higher revenue"),
+        
+        ("Social responsibility", "Become a better organization"),
+        ("Higher profit", "Become a better organization"),
+        ("Minimal environmental footprint", "Become a better organization"),
+        ("Higher revenue", "Become a better organization"),
+    ]
+    G.add_edges_from(edges)
+
+    
+    pos = {
+        "Become a better organization": (0.5, 1),
+        "Higher revenue": (-0.2, 0.7),
+        "Higher profit": (0.3, 0.6),
+        "Minimal environmental footprint": (0.9, 0.7),
+        "Social responsibility": (1.4, 0.6),
+        "Project 1": (1.5, 0.33),
+        "Project 2": (0.66, 0.33),
+        "Project 3": (0.33, 0.33),
+        "Project 4": (0, 0.33),
+        "Project 5": (-0.33, 0.33),
+    }
+
+    
+    fig, ax = plt.subplots(figsize=(10, 6))
+    nx.draw(G, pos, with_labels=True, arrows=True, node_size=2000, 
+            node_color='skyblue', font_weight='bold', ax=ax,
+            arrowstyle='->', arrowsize=15)
+
+    plt.title("Hierarchy Process Diagram")
+    return fig
 
 def app():
     
     st.title('Analytical Hierarchical Process with Criteria-Alternative Relationships')
+
+    st.pyplot(draw_hierarchy_diagram())
 
     criteria_achievability_input = st.text_input('Enter criteria separated by comma', 'Higher revenue, Higher profit, Minimal environmental footprint, Social responsibility').split(',')
     criteria_achievability_input = [c.strip() for c in criteria_achievability_input]
