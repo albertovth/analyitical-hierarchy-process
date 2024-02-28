@@ -11,6 +11,7 @@ import numpy as np
 import pandas as pd
 from scipy.linalg import eig
 import matplotlib.pyplot as plt
+import networkx as nx
 
 def calculate_priority_vector(matrix):
     try:
