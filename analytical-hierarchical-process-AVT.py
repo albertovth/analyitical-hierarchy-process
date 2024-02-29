@@ -12,6 +12,7 @@ import pandas as pd
 from scipy.linalg import eig
 import matplotlib.pyplot as plt
 import networkx as nx
+import matplotlib.ticker as ticker
 
 def calculate_priority_vector(matrix):
     try:
@@ -23,8 +24,6 @@ def calculate_priority_vector(matrix):
     except Exception as e:
         st.error(f"Error in calculating priority vector: {e}")
         return np.array([])
-
-import numpy as np
 
 def create_pairwise_comparison_matrix_from_grades(elements, grades):
     n = len(elements)
@@ -83,54 +82,98 @@ def input_to_grades_dict_for_alternatives(input_text, alternatives):
 
    return grades
 
-def draw_hierarchy_diagram():
+def draw_hierarchy_diagram(criteria_nodes, alternatives_nodes, criteria_alternative_relationship_diagram):
     G = nx.DiGraph()
 
-    
-    edges = [
-        
-        ("Project 1", "Social responsibility"),
-        ("Project 2", "Higher profit"),
-        ("Project 2", "Minimal environmental footprint"),
-        ("Project 3", "Higher profit"),
-        ("Project 4", "Higher revenue"),
-        ("Project 5", "Higher revenue"),
-        
-        ("Social responsibility", "Become a better organization"),
-        ("Higher profit", "Become a better organization"),
-        ("Minimal environmental footprint", "Become a better organization"),
-        ("Higher revenue", "Become a better organization"),
-    ]
-    G.add_edges_from(edges)
+    # Add edges from alternatives to criteria based on the relationship input
+    for criterion, related_alternatives in criteria_alternative_relationship_diagram.items():
+        for alternative in related_alternatives:
+            G.add_edge(alternative, criterion)
 
-    
-    pos = {
-        "Become a better organization": (0.5, 1),
-        "Higher revenue": (-0.2, 0.7),
-        "Higher profit": (0.3, 0.6),
-        "Minimal environmental footprint": (0.9, 0.7),
-        "Social responsibility": (1.4, 0.6),
-        "Project 1": (1.5, 0.33),
-        "Project 2": (0.66, 0.33),
-        "Project 3": (0.33, 0.33),
-        "Project 4": (0, 0.33),
-        "Project 5": (-0.33, 0.33),
-    }
+    # Add edges from criteria to the overarching goal
+    goal = "Main goal"
+    for criterion in criteria_nodes:
+        G.add_edge(criterion, goal)
 
-    
+    # Initialize positions
+    pos = {}
+    pos[goal] = (0.5, 1)  # Position for the goal
+
+    # Vertical positioning with variation
+    base_height_criteria = 0.7
+    height_variation = 0.1
+    criteria_spacing = 1.0 / (len(criteria_nodes) + 1)
+    for i, criterion in enumerate(criteria_nodes):
+        pos[criterion] = (criteria_spacing * (i + 1), base_height_criteria - (i % 2) * height_variation)
+
+    base_height_alternatives = 0.4
+    alternatives_spacing = 1.0 / (len(alternatives_nodes) + 1)
+    for i, alternative in enumerate(alternatives_nodes):
+        pos[alternative] = (alternatives_spacing * (i + 1), base_height_alternatives - (i % 2) * height_variation)
+# Safety check: Ensure all nodes have positions
+    for node in G.nodes():
+        if node not in pos:
+            print(f"Assigning default position to node: {node}")  # Debugging information
+            pos[node] = (0.5, 0.5)  # Assign a default position
+
+    # Drawing the graph
     fig, ax = plt.subplots(figsize=(10, 6))
     nx.draw(G, pos, with_labels=True, arrows=True, node_size=2000, 
             node_color='skyblue', font_weight='bold', ax=ax,
             arrowstyle='->', arrowsize=15)
 
-    plt.title("Hierarchy Process Diagram")
+    plt.title("Create and update your hierarchy Process diagram with the fields below")
     return fig
+
+st.set_page_config(layout="wide")
 
 def app():
     
     st.title('Analytical Hierarchical Process with Criteria-Alternative Relationships')
-
-    st.pyplot(draw_hierarchy_diagram())
+    
+    st.markdown('''
+    Welcome to a Simplified Analytical Hierarchy Process (AHP) Tool, a user-friendly application inspired by the groundbreaking work of mathematician Thomas L. Saaty. This tool provides a straightforward approach to the AHP, allowing you to create your own AHP diagrams, define criteria and alternatives, and grade each based on achievability and effect. You can update the diagram below by filling out the form.
+        ''')
+        
+       # Initialize default values for the diagram components
+    criteria_nodes = ['Criteria 1', 'Criteria 2']  # Default criteria nodes
+    alternatives_nodes = ['Alternative 1', 'Alternative 2']  # Default alternative nodes
+    criteria_alternative_relationship_diagram = {}  # Default relationships, adjust as needed
+    
+    # Initialize a placeholder for the diagram
+    diagram_placeholder = st.empty()
+    
+    # Draw the initial diagram using the default values and display it in the placeholder
+    fig = draw_hierarchy_diagram(criteria_nodes, alternatives_nodes, criteria_alternative_relationship_diagram)
+    diagram_placeholder.pyplot(fig)
+    
+    st.markdown('''
+    This application deviates slightly from the traditional method of grading pairwise comparisons. Instead, you can directly assign grades to individual criteria and alternatives, on the basis of their achievability and effect for the related node. The app then uses these grades to conduct pairwise comparisons automatically, ensuring completely consistent matrices, without the need for consistency metrics.            
+     ### How It Works (interactive form at the bottom of page)
+     1. **Design Your AHP Diagram:** Start by laying out the structure of your decision-making process.
+     2. **Specify Criteria and Alternatives:** Define the elements of your decision matrix.
+     3. **Grade Each Element:** Assign a grade to each criterion and alternative, focusing on achievability and effect. Please note, grades for multiple criteria and alternatives should be comma-separated, and in the same order as registered. The amount of grades should also match the elements being graded.
+     
+     To facilitate the input process, you can prepare your data using worksheets, making registration straightforward. Although currently grades are registered manually, and depending on user feedback on needs, future models might allow direct uploads of CSV or XLSX files, to simplify modelling more complex processes.
+     
+     ### Features
+     - **Update Diagram:** A dedicated button allows you to refresh the diagram as needed during the grading process.
+     - **Calculate Weights:** Once your data is input, calculate the weights to see how criteria and alternatives stack up.
+     - **Visualize Priorities:** The app generates a scatter plot for easy visualization of priorities, based on your predefined criteria.
+     
+     This tool is perfect for anyone looking to apply the AHP in a simplified and intuitive manner. Whether for academic, personal, or professional decisions, this app makes the AHP accessible and straightforward.
+     
+     For more on the analytical hierarchy process as conceived by Thomas L. Saaty, see [this article](https://www.sciencedirect.com/science/article/pii/0270025587904738).
+     
+     ### Feedback
+     Have questions or suggestions? Feel free to contact me at [alberto@vthoresen.no](mailto:alberto@vthoresen.no) or visit [GitHub repository](https://github.com/albertovth/analyitical-hierarchy-process) for more information.
+     
+     ''')            
+    
+    st.markdown('''
+    ### Interactive Process Design and Evaluation Form
+    You will find the buttons to update the process design and/or calculate weights and produce priority scatter plot below
+    ''')
     
     criteria_achievability_input = st.text_input('Enter criteria separated by comma', 'Higher revenue, Higher profit, Minimal environmental footprint, Social responsibility').split(',')
     criteria_achievability_input = [c.strip() for c in criteria_achievability_input]
@@ -183,9 +226,29 @@ def app():
         effect_grades_input = st.text_area(f"Enter effect grades for all alternatives related to {effect_criterion} separated by comma", key=unique_key_effect)
     
         alternative_effect_grades[effect_criterion] = input_to_grades_dict_for_alternatives(effect_grades_input, related_effect_alternatives)
+    
+    
+    criteria_nodes = criteria_achievability_input.copy()
+    
+    alternatives_nodes = alternatives_achievability_input.copy()
+       
+    
+    
+    criteria_alternative_relationship_diagram = criteria_alternative_achievability_relationship.copy()
 
-   
-    if st.button('Calculate Weights'):
+    if st.button('Update process design diagram (image at top of page)'):
+    # Update variables based on user inputs
+        criteria_nodes = criteria_achievability_input  # Assuming these variables are updated with user inputs
+        alternatives_nodes = alternatives_achievability_input
+    # Update criteria_alternative_relationship_diagram based on user input logic
+
+    # Redraw the diagram with updated inputs
+        fig = draw_hierarchy_diagram(criteria_nodes, alternatives_nodes, criteria_alternative_relationship_diagram)
+    # Update the diagram in the same placeholder
+        diagram_placeholder.pyplot(fig)
+       # Call the function to draw the diagram
+    
+    if st.button('Calculate Weights and generate priority scatter plot'):
         try:
             synthetic_alternative_achievability_weights = {}  
             synthetic_alternative_effect_weights = {}  
@@ -217,14 +280,43 @@ def app():
                 for i, effect_alternative in enumerate(effect_alternatives):
                     synthetic_alternative_effect_weights[effect_alternative] = synthetic_alternative_effect_weights.get(effect_alternative, 0) + alternative_effect_vector[i] * criteria_weight_for_effect
             
+            
+            # Map criteria names to their weights and create a DataFrame for achievability
+            achievability_criteria_weights_df = pd.DataFrame({
+                'Criteria': criteria_achievability_input,
+                'Criteria Achievability Weight (%)': criteria_achievability_vector * 100
+            })
+            
+            # Sort the DataFrame based on weights in descending order
+            achievability_criteria_weights_df = achievability_criteria_weights_df.sort_values(by='Criteria Achievability Weight (%)', ascending=False)
+            
+            # Display the sorted DataFrame as a table
+            st.table(achievability_criteria_weights_df)
+            
+            
+            # Repeat the process for effect weights
+            effect_criteria_weights_df = pd.DataFrame({
+                'Criteria': criteria_effect_input,
+                'Criteria Effect Weight (%)': criteria_effect_vector * 100
+            })
+            
+            # Sort the DataFrame based on weights in descending order
+            effect_criteria_weights_df = effect_criteria_weights_df.sort_values(by='Criteria Effect Weight (%)', ascending=False)
+            
+            # Display the sorted DataFrame as a table
+            st.table(effect_criteria_weights_df)
+            
         
             
             consolidated_achievability_weights = pd.Series(synthetic_alternative_achievability_weights).sort_values(ascending=False)
             consolidated_effect_weights = pd.Series(synthetic_alternative_effect_weights).sort_values(ascending=False)
             
+            consolidated_achievability_weights_percent = consolidated_achievability_weights.copy()*100 
+            consolidated_effect_weights_percent = consolidated_effect_weights.copy()*100
             
-            st.table(consolidated_achievability_weights.reset_index().rename(columns={'index': 'Alternative', 0: 'Synthetic Achievability Weight'}))
-            st.table(consolidated_effect_weights.reset_index().rename(columns={'index': 'Alternative', 0: 'Synthetic Effect Weight'}))
+            
+            st.table(consolidated_achievability_weights_percent.reset_index().rename(columns={'index': 'Alternative', 0: 'Synthetic Achievability Weight'}))
+            st.table(consolidated_effect_weights_percent.reset_index().rename(columns={'index': 'Alternative', 0: 'Synthetic Effect Weight'}))
             
             
             fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 6))  
@@ -245,15 +337,26 @@ def app():
             ax1.fill_between([0, median_achievability], 0, median_effect, color='#E57373', alpha=0.3)
             
             
+            #Your existing code for scatter plot and annotations
             for alternative, achievability_weight in zip(consolidated_achievability_weights.index, consolidated_achievability_weights):
                 effect_weight = consolidated_effect_weights[alternative]
                 ax1.scatter(achievability_weight, effect_weight, color='blue')
                 ax1.annotate(alternative, (achievability_weight, effect_weight), textcoords="offset points", xytext=(10,10), ha='right')
             
-            ax1.set_xlabel('Synthetic Alternative Achievability Weights')
-            ax1.set_ylabel('Synthetic Alternative Effect Weights')
-            ax1.set_title('Scatter Plot of Synthetic Weights')
+            # Set tick formatters for x and y axes
+            ax1.xaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=0))
+            ax1.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=0))
+            
+            # Add labels to the axes with percentages
+            ax1.set_xlabel('Synthetic Alternative Achievability Weights (%)')
+            ax1.set_ylabel('Synthetic Alternative Effect Weights (%)')
+            
+            # Adjust the title accordingly
+            ax1.set_title('Scatter Plot of Synthetic Weights (Percentages)')
+            
+            # Your existing code for legend
             ax1.legend()
+
             
             
             ax2.axis('off')  
@@ -268,9 +371,22 @@ def app():
             
             plt.tight_layout()
             st.pyplot(fig)
+            
+        # Update variables based on user inputs
+            criteria_nodes = criteria_achievability_input  # Assuming these variables are updated with user inputs
+            alternatives_nodes = alternatives_achievability_input
+        # Update criteria_alternative_relationship_diagram based on user input logic
+
+        # Redraw the diagram with updated inputs
+            fig = draw_hierarchy_diagram(criteria_nodes, alternatives_nodes, criteria_alternative_relationship_diagram)
+        # Update the diagram in the same placeholder
+            diagram_placeholder.pyplot(fig)
+           # Call the function to draw the diagram
+            
     
         except Exception as e:
             st.error(f"An error occurred: {e}")
+
 
 if __name__ == '__main__':
     app()
