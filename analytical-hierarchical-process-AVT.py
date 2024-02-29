@@ -116,7 +116,7 @@ def draw_hierarchy_diagram(criteria_nodes, alternatives_nodes, criteria_alternat
             print(f"Assigning default position to node: {node}")  
             pos[node] = (0.5, 0.5)  
 
-    # Drawing the graph
+    
     fig, ax = plt.subplots(figsize=(10, 6))
     nx.draw(G, pos, with_labels=True, arrows=True, node_size=2000, 
             node_color='skyblue', font_weight='bold', ax=ax,
@@ -238,7 +238,7 @@ def app():
 
     if st.button('Update process design diagram (image at top of page)'):
     
-        criteria_nodes = criteria_achievability_input  # Assuming these variables are updated with user inputs
+        criteria_nodes = criteria_achievability_input  
         alternatives_nodes = alternatives_achievability_input
     
 
