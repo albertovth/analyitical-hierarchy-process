@@ -132,7 +132,7 @@ def app():
     st.title('Analytical Hierarchical Process with Criteria-Alternative Relationships')
     
     st.markdown('''
-    ### Welcome to a Simplified Analytical Hierarchy Process (AHP) Tool, a user-friendly application inspired by the groundbreaking work of mathematician Thomas L. Saaty. This tool provides a straightforward approach to the AHP, allowing you to create your own AHP diagrams, define criteria and alternatives, and grade each based on achievability and effect. You can update the diagram below by filling out the form.
+    ### Welcome to a Simplified Analytical Hierarchy Process (AHP) Tool, a user-friendly application inspired by the groundbreaking work of mathematician Thomas L. Saaty. This tool provides a straightforward approach to the AHP, allowing you to create your own AHP-diagrams, define criteria and alternatives, and grade each based on achievability and effect. You can update the diagram below by filling out the form.
         ''')
         
        
@@ -152,7 +152,7 @@ def app():
      ### How It Works (interactive form at the bottom of page)
      1. **Design Your AHP Diagram:** Start by laying out the structure of your decision-making process.
      2. **Specify Criteria and Alternatives:** Define the elements of your decision matrix.
-     3. **Grade Each Element:** Assign a grade to each criterion and alternative, focusing on achievability and effect. Please note, grades for multiple criteria and alternatives should be comma-separated, and in the same order as registered. The amount of grades should also match the elements being graded.
+     3. **Grade Each Element:** Assign a grade to each criterion and alternative, focusing on achievability and effect. Please note, grades for multiple criteria and alternatives should be comma-separated, and in the same order as registered. The amount of grades should also match the elements being graded. For optimal function, be consistent in the way you assign grades, by using the same scale for all criteria and alternatives.
      
      To facilitate the input process, you can prepare your data using worksheets, making registration straightforward. Although currently grades are registered manually, and depending on user feedback on needs, future models might allow direct uploads of CSV or XLSX files, to simplify modelling more complex processes.
      
