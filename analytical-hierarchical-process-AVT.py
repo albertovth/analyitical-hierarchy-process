@@ -204,7 +204,7 @@ def app():
     
     if criteria_achievability_input:  # Checks if the list is not empty
         criteria_names = ', '.join(criteria_achievability_input)
-        prompt_achievability = f'Enter achievability grades for pairwise comparisons of {criteria_names}, separated by comma'
+        prompt_achievability = f'Enter achievability grades for pairwise comparisons of: {criteria_names}, separated by comma'
     else:
             prompt_achievability = 'Enter achievability grades for pairwise comparisons, separated by comma (criteria not yet specified)'
     criteria_achievability_grades_input = st.text_area(prompt_achievability)
@@ -212,7 +212,7 @@ def app():
     
     if criteria_effect_input:  # Checks if the list is not empty
         criteria_names = ', '.join(criteria_effect_input)
-        prompt_effect = f'Enter effect grades for pairwise comparisons of {criteria_names}, separated by comma'
+        prompt_effect = f'Enter effect grades for pairwise comparisons of: {criteria_names}, separated by comma'
     else:
             prompt_effect = 'Enter effect grades for pairwise comparisons, separated by comma (criteria not yet specified)'
     criteria_effect_grades_input = st.text_area(prompt_effect)
@@ -234,7 +234,7 @@ def app():
     
         unique_key_achievability = f"grades_achievability_{achievability_criterion}"
     
-        prompt_achievability = f"Enter achievability grades for all alternatives related to {achievability_criterion} ({alternatives_text}) separated by comma"
+        prompt_achievability = f"Enter achievability grades for all alternatives related to: {achievability_criterion} ({alternatives_text}) separated by comma"
         achievability_grades_input = st.text_area(prompt_achievability, key=unique_key_achievability)
     
         alternative_achievability_grades[achievability_criterion] = input_to_grades_dict_for_alternatives(achievability_grades_input, related_achievability_alternatives)
@@ -246,7 +246,7 @@ def app():
     
         unique_key_effect = f"grades_effect_{effect_criterion}"
     
-        prompt_effect = f"Enter effect grades for all alternatives related to {effect_criterion} ({alternatives_text}) separated by comma"
+        prompt_effect = f"Enter effect grades for all alternatives related to: {effect_criterion} ({alternatives_text}) separated by comma"
         effect_grades_input = st.text_area(prompt_effect, key=unique_key_effect)
     
         alternative_effect_grades[effect_criterion] = input_to_grades_dict_for_alternatives(effect_grades_input, related_effect_alternatives)
