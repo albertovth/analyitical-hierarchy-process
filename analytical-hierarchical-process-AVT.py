@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Wed Feb 28 21:38:04 2024
+Created on Sun Mar  3 12:07:39 2024
 
 @author: albertovth
 """
@@ -82,7 +82,7 @@ def input_to_grades_dict_for_alternatives(input_text, alternatives):
 
    return grades
 
-def draw_hierarchy_diagram(criteria_nodes, alternatives_nodes, criteria_alternative_relationship_diagram):
+def draw_hierarchy_diagram(diagram_title, main_goal, criteria_nodes, alternatives_nodes, criteria_alternative_relationship_diagram):
     G = nx.DiGraph()
 
     
@@ -91,7 +91,7 @@ def draw_hierarchy_diagram(criteria_nodes, alternatives_nodes, criteria_alternat
             G.add_edge(alternative, criterion)
 
     
-    goal = "Main goal"
+    goal = main_goal
     for criterion in criteria_nodes:
         G.add_edge(criterion, goal)
 
@@ -122,7 +122,7 @@ def draw_hierarchy_diagram(criteria_nodes, alternatives_nodes, criteria_alternat
             node_color='skyblue', font_weight='bold', ax=ax,
             arrowstyle='->', arrowsize=15)
 
-    plt.title("Create and update your hierarchy Process diagram with the fields below")
+    plt.title(diagram_title)
     return fig
 
 st.set_page_config(layout="wide")
@@ -135,16 +135,20 @@ def app():
     ### Welcome to a Simplified Analytical Hierarchy Process (AHP) Tool, a user-friendly application inspired by the groundbreaking work of mathematician Thomas L. Saaty. This tool provides a straightforward approach to the AHP, allowing you to create your own AHP-diagrams, define criteria and alternatives, and grade each based on achievability and effect. You can update the diagram below by filling out the form.
         ''')
         
-       
+    diagram_title='Create and update your hierarchy Process diagram with the fields below'
+    main_goal="Main Goal"   
     criteria_nodes = ['Criteria 1', 'Criteria 2']  
     alternatives_nodes = ['Alternative 1', 'Alternative 2']  
-    criteria_alternative_relationship_diagram = {}  
+    criteria_alternative_relationship_diagram = {
+        'Criteria 1': ['Alternative 1', 'Alternative 2'],  # Relation between Criteria 1 and Alternatives
+        'Criteria 2': ['Alternative 1'],  # Relation between Criteria 2 and Alternative 1
+    }  
     
     
     diagram_placeholder = st.empty()
     
     
-    fig = draw_hierarchy_diagram(criteria_nodes, alternatives_nodes, criteria_alternative_relationship_diagram)
+    fig = draw_hierarchy_diagram(diagram_title, main_goal, criteria_nodes, alternatives_nodes, criteria_alternative_relationship_diagram)
     diagram_placeholder.pyplot(fig)
     
     st.markdown('''
@@ -175,7 +179,9 @@ def app():
     You will find the buttons to update the process design and/or calculate weights and produce priority scatter plot below
     ''')
     
-    criteria_achievability_input = st.text_input('Enter criteria separated by comma', 'Higher revenue, Higher profit, Minimal environmental footprint, Social responsibility').split(',')
+    diagram_title_input=st.text_input('Enter the diagram title', 'Give your hierarchical process a descriptive title')
+    main_goal_input = st.text_input('Enter the main goal', 'What is the main goal of your hierarchical process?')
+    criteria_achievability_input = st.text_input('Enter criteria separated by comma', 'Program goal 1, Program goal 2, Program goal 3, Program goal 4').split(',')
     criteria_achievability_input = [c.strip() for c in criteria_achievability_input]
     criteria_effect_input = criteria_achievability_input.copy() 
     criteria_effect_input = [c.strip() for c in criteria_effect_input]
@@ -190,14 +196,26 @@ def app():
     for index, achievability_criterion in enumerate(criteria_achievability_input):
         prompt = f"Enter alternatives related to {achievability_criterion} separated by comma"
         
-        alternatives_input = st.text_input(prompt, 'Select from alternatives, for example, projects', key=f"ach_alt_achiev_{index}").split(',')
-        criteria_alternative_achievability_relationship[achievability_criterion] = [a.strip() for a in alternatives_input] 
+        alternatives_input = st.text_input(prompt, 'Project 1, Project 2, Project 3, Project 4, Project 5', key=f"ach_alt_achiev_{index}").split(',')
+        criteria_alternative_achievability_relationship[achievability_criterion] = [a.strip() for a in alternatives_input]  
     
     
     criteria_alternative_effect_relationship = criteria_alternative_achievability_relationship.copy()
     
-    criteria_achievability_grades_input = st.text_area('Enter grades for pairwise comparisons of criteria on Achievability, separated by comma')
-    criteria_effect_grades_input = st.text_area('Enter grades for pairwise comparisons of criteria on Effect, separated by comma')
+    if criteria_achievability_input:  # Checks if the list is not empty
+        criteria_names = ', '.join(criteria_achievability_input)
+        prompt_achievability = f'Enter grades for pairwise comparisons of {criteria_names} on Achievability, separated by comma'
+    else:
+            prompt_achievability = 'Enter grades for pairwise comparisons on Achievability, separated by comma (criteria not yet specified)'
+    criteria_achievability_grades_input = st.text_area(prompt_achievability)
+    
+    
+    if criteria_effect_input:  # Checks if the list is not empty
+        criteria_names = ', '.join(criteria_effect_input)
+        prompt_effect = f'Enter grades for pairwise comparisons of {criteria_names} on Effect, separated by comma'
+    else:
+            prompt_effect = 'Enter grades for pairwise comparisons on Effect separated by comma (criteria not yet specified)'
+    criteria_effect_grades_input = st.text_area(prompt_effect)
     
     
     criteria_achievability_grades = input_to_grades_dict(criteria_achievability_grades_input, criteria_achievability_input)
@@ -210,23 +228,32 @@ def app():
     
     
     for achievability_criterion in criteria_achievability_input:
-        related_achievability_alternatives = criteria_alternative_achievability_relationship[achievability_criterion]
-        
+        related_achievability_alternatives = criteria_alternative_achievability_relationship.get(achievability_criterion, [])
+    
+        alternatives_text = ', '.join(related_achievability_alternatives)
+    
         unique_key_achievability = f"grades_achievability_{achievability_criterion}"
-        
-        achievability_grades_input = st.text_area(f"Enter achievability grades for all alternatives related to {achievability_criterion} separated by comma", key=unique_key_achievability)
-        
+    
+        prompt_achievability = f"Enter achievability grades for all alternatives related to {achievability_criterion} ({alternatives_text}) separated by comma"
+        achievability_grades_input = st.text_area(prompt_achievability, key=unique_key_achievability)
+    
         alternative_achievability_grades[achievability_criterion] = input_to_grades_dict_for_alternatives(achievability_grades_input, related_achievability_alternatives)
-     
-        
-
+           
     for effect_criterion in criteria_effect_input:
-        related_effect_alternatives = criteria_alternative_effect_relationship[effect_criterion]
+        related_effect_alternatives = criteria_alternative_effect_relationship.get(effect_criterion, [])
+    
+        alternatives_text = ', '.join(related_effect_alternatives)
+    
         unique_key_effect = f"grades_effect_{effect_criterion}"
-        effect_grades_input = st.text_area(f"Enter effect grades for all alternatives related to {effect_criterion} separated by comma", key=unique_key_effect)
+    
+        prompt_effect = f"Enter effect grades for all alternatives related to {effect_criterion} ({alternatives_text}) separated by comma"
+        effect_grades_input = st.text_area(prompt_effect, key=unique_key_effect)
     
         alternative_effect_grades[effect_criterion] = input_to_grades_dict_for_alternatives(effect_grades_input, related_effect_alternatives)
+
+    diagram_title=diagram_title_input
     
+    main_goal=main_goal_input
     
     criteria_nodes = criteria_achievability_input.copy()
     
@@ -237,13 +264,8 @@ def app():
     criteria_alternative_relationship_diagram = criteria_alternative_achievability_relationship.copy()
 
     if st.button('Update process design diagram (image at top of page)'):
-    
-        criteria_nodes = criteria_achievability_input  
-        alternatives_nodes = alternatives_achievability_input
-    
-
-    
-        fig = draw_hierarchy_diagram(criteria_nodes, alternatives_nodes, criteria_alternative_relationship_diagram)
+           
+        fig = draw_hierarchy_diagram(diagram_title, main_goal, criteria_nodes, alternatives_nodes, criteria_alternative_relationship_diagram)
     
         diagram_placeholder.pyplot(fig)
        
@@ -378,7 +400,7 @@ def app():
         
 
         
-            fig = draw_hierarchy_diagram(criteria_nodes, alternatives_nodes, criteria_alternative_relationship_diagram)
+            fig = draw_hierarchy_diagram(diagram_title, main_goal, criteria_nodes, alternatives_nodes, criteria_alternative_relationship_diagram)
         
             diagram_placeholder.pyplot(fig)
            
