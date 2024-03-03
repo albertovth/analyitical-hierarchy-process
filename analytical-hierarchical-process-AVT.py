@@ -204,17 +204,17 @@ def app():
     
     if criteria_achievability_input:  # Checks if the list is not empty
         criteria_names = ', '.join(criteria_achievability_input)
-        prompt_achievability = f'Enter grades for pairwise comparisons of {criteria_names} on Achievability, separated by comma'
+        prompt_achievability = f'Enter achievability grades for pairwise comparisons of {criteria_names}, separated by comma'
     else:
-            prompt_achievability = 'Enter grades for pairwise comparisons on Achievability, separated by comma (criteria not yet specified)'
+            prompt_achievability = 'Enter achievability grades for pairwise comparisons, separated by comma (criteria not yet specified)'
     criteria_achievability_grades_input = st.text_area(prompt_achievability)
     
     
     if criteria_effect_input:  # Checks if the list is not empty
         criteria_names = ', '.join(criteria_effect_input)
-        prompt_effect = f'Enter grades for pairwise comparisons of {criteria_names} on Effect, separated by comma'
+        prompt_effect = f'Enter effect grades for pairwise comparisons of {criteria_names}, separated by comma'
     else:
-            prompt_effect = 'Enter grades for pairwise comparisons on Effect separated by comma (criteria not yet specified)'
+            prompt_effect = 'Enter effect grades for pairwise comparisons, separated by comma (criteria not yet specified)'
     criteria_effect_grades_input = st.text_area(prompt_effect)
     
     
