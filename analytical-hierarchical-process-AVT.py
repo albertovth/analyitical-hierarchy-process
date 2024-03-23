@@ -98,9 +98,9 @@ def draw_hierarchy_diagram(diagram_title, main_goal, criteria_nodes, alternative
         G.add_edge(criterion, goal)
     G.nodes[goal]['type'] = 'main_goal'
 
-    # Positioning
+    
     pos = {}
-    pos[goal] = (0.5, 1)  # Main goal at top
+    pos[goal] = (0.5, 1)  
 
     base_height_criteria = 0.7
     height_variation = 0.1
@@ -132,7 +132,7 @@ def get_node_color(node_type):
     elif node_type == 'alternative':
         return 'lightgreen'
     else:
-        return 'gray'  # Fallback color
+        return 'gray'  
 
 
 
