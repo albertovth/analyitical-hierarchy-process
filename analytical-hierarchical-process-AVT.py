@@ -135,6 +135,7 @@ def get_node_color(node_type):
         return 'gray'  # Fallback color
 
 
+
 st.set_page_config(layout="wide")
 
 def app():
