@@ -85,23 +85,21 @@ def input_to_grades_dict_for_alternatives(input_text, alternatives):
 def draw_hierarchy_diagram(diagram_title, main_goal, criteria_nodes, alternatives_nodes, criteria_alternative_relationship_diagram):
     G = nx.DiGraph()
 
-    # Add nodes and edges for criteria and alternatives
+    
     for criterion, related_alternatives in criteria_alternative_relationship_diagram.items():
         for alternative in related_alternatives:
             G.add_edge(alternative, criterion)
-            G.nodes[alternative]['type'] = 'alternative'
-        G.nodes[criterion]['type'] = 'criteria'
 
-    # Add edges from criteria to main goal
+    
     goal = main_goal
     for criterion in criteria_nodes:
         G.add_edge(criterion, goal)
-    G.nodes[goal]['type'] = 'main_goal'
 
     
     pos = {}
     pos[goal] = (0.5, 1)  
 
+    
     base_height_criteria = 0.7
     height_variation = 0.1
     criteria_spacing = 1.0 / (len(criteria_nodes) + 1)
@@ -113,28 +111,19 @@ def draw_hierarchy_diagram(diagram_title, main_goal, criteria_nodes, alternative
     for i, alternative in enumerate(alternatives_nodes):
         pos[alternative] = (alternatives_spacing * (i + 1), base_height_alternatives - (i % 2) * height_variation)
 
-    # Drawing
+    for node in G.nodes():
+        if node not in pos:
+            print(f"Assigning default position to node: {node}")  
+            pos[node] = (0.5, 0.5)  
+
+    
     fig, ax = plt.subplots(figsize=(10, 6))
-    node_colors = [get_node_color(G.nodes[node]['type']) for node in G.nodes()]
     nx.draw(G, pos, with_labels=True, arrows=True, node_size=2000, 
-            node_color=node_colors, font_weight='bold', ax=ax,
+            node_color='skyblue', font_weight='bold', ax=ax,
             arrowstyle='->', arrowsize=15)
 
     plt.title(diagram_title)
     return fig
-
-def get_node_color(node_type):
-    """Return the color based on the type of the node."""
-    if node_type == 'main_goal':
-        return 'red'
-    elif node_type == 'criteria':
-        return 'skyblue'
-    elif node_type == 'alternative':
-        return 'lightgreen'
-    else:
-        return 'gray'  
-
-
 
 st.set_page_config(layout="wide")
 
