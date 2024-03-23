@@ -200,7 +200,7 @@ def app():
     
     criteria_alternative_effect_relationship = criteria_alternative_achievability_relationship.copy()
     
-    if criteria_achievability_input:  # Checks if the list is not empty
+    if criteria_achievability_input:  
         criteria_names = ', '.join(criteria_achievability_input)
         prompt_achievability = f'Enter achievability grades for pairwise comparisons of: {criteria_names}, separated by comma'
     else:
@@ -208,7 +208,7 @@ def app():
     criteria_achievability_grades_input = st.text_area(prompt_achievability)
     
     
-    if criteria_effect_input:  # Checks if the list is not empty
+    if criteria_effect_input:  
         criteria_names = ', '.join(criteria_effect_input)
         prompt_effect = f'Enter effect grades for pairwise comparisons of: {criteria_names}, separated by comma'
     else:
