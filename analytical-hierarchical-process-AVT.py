@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Sat Mar 23 18:09:52 2024
+Created on Sat Mar 23 19:14:26 2024
 
 @author: albertovth
 """
+
 
 import streamlit as st
 import numpy as np
@@ -85,21 +86,17 @@ def input_to_grades_dict_for_alternatives(input_text, alternatives):
 def draw_hierarchy_diagram(diagram_title, main_goal, criteria_nodes, alternatives_nodes, criteria_alternative_relationship_diagram):
     G = nx.DiGraph()
 
-    
     for criterion, related_alternatives in criteria_alternative_relationship_diagram.items():
         for alternative in related_alternatives:
             G.add_edge(alternative, criterion)
 
-    
     goal = main_goal
     for criterion in criteria_nodes:
         G.add_edge(criterion, goal)
 
-    
     pos = {}
     pos[goal] = (0.5, 1)  
 
-    
     base_height_criteria = 0.7
     height_variation = 0.1
     criteria_spacing = 1.0 / (len(criteria_nodes) + 1)
@@ -116,14 +113,15 @@ def draw_hierarchy_diagram(diagram_title, main_goal, criteria_nodes, alternative
             print(f"Assigning default position to node: {node}")  
             pos[node] = (0.5, 0.5)  
 
-    
     fig, ax = plt.subplots(figsize=(10, 6))
+    node_colors = [ 'red' if node == goal else 'skyblue' if node in criteria_nodes else 'lightgreen' for node in G]
     nx.draw(G, pos, with_labels=True, arrows=True, node_size=2000, 
-            node_color='skyblue', font_weight='bold', ax=ax,
+            node_color=node_colors, font_weight='bold', ax=ax,
             arrowstyle='->', arrowsize=15)
 
     plt.title(diagram_title)
     return fig
+
 
 st.set_page_config(layout="wide")
 
