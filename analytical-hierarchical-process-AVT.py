@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Sun Mar  3 12:07:39 2024
+Created on Sat Mar 23 18:09:52 2024
 
 @author: albertovth
 """
@@ -85,21 +85,23 @@ def input_to_grades_dict_for_alternatives(input_text, alternatives):
 def draw_hierarchy_diagram(diagram_title, main_goal, criteria_nodes, alternatives_nodes, criteria_alternative_relationship_diagram):
     G = nx.DiGraph()
 
-    
+    # Add nodes and edges for criteria and alternatives
     for criterion, related_alternatives in criteria_alternative_relationship_diagram.items():
         for alternative in related_alternatives:
             G.add_edge(alternative, criterion)
+            G.nodes[alternative]['type'] = 'alternative'
+        G.nodes[criterion]['type'] = 'criteria'
 
-    
+    # Add edges from criteria to main goal
     goal = main_goal
     for criterion in criteria_nodes:
         G.add_edge(criterion, goal)
+    G.nodes[goal]['type'] = 'main_goal'
 
-    
+    # Positioning
     pos = {}
-    pos[goal] = (0.5, 1)  
+    pos[goal] = (0.5, 1)  # Main goal at top
 
-    
     base_height_criteria = 0.7
     height_variation = 0.1
     criteria_spacing = 1.0 / (len(criteria_nodes) + 1)
@@ -111,19 +113,27 @@ def draw_hierarchy_diagram(diagram_title, main_goal, criteria_nodes, alternative
     for i, alternative in enumerate(alternatives_nodes):
         pos[alternative] = (alternatives_spacing * (i + 1), base_height_alternatives - (i % 2) * height_variation)
 
-    for node in G.nodes():
-        if node not in pos:
-            print(f"Assigning default position to node: {node}")  
-            pos[node] = (0.5, 0.5)  
-
-    
+    # Drawing
     fig, ax = plt.subplots(figsize=(10, 6))
+    node_colors = [get_node_color(G.nodes[node]['type']) for node in G.nodes()]
     nx.draw(G, pos, with_labels=True, arrows=True, node_size=2000, 
-            node_color='skyblue', font_weight='bold', ax=ax,
+            node_color=node_colors, font_weight='bold', ax=ax,
             arrowstyle='->', arrowsize=15)
 
     plt.title(diagram_title)
     return fig
+
+def get_node_color(node_type):
+    """Return the color based on the type of the node."""
+    if node_type == 'main_goal':
+        return 'red'
+    elif node_type == 'criteria':
+        return 'skyblue'
+    elif node_type == 'alternative':
+        return 'lightgreen'
+    else:
+        return 'gray'  # Fallback color
+
 
 st.set_page_config(layout="wide")
 
@@ -394,7 +404,33 @@ def app():
             plt.tight_layout()
             st.pyplot(fig)
             
-        
+            fig_criteria, ax_criteria = plt.subplots(figsize=(10, 6))
+    
+            median_achievability_criteria = np.median(list(criteria_achievability_vector))
+            median_effect_criteria = np.median(list(criteria_effect_vector))
+                        
+            ax_criteria.axvline(x=median_achievability_criteria, color='red', linestyle='--', label='Median Achievability (Criteria)')
+            ax_criteria.axhline(y=median_effect_criteria, color='red', linestyle='--', label='Median Effect (Criteria)')
+            
+            ax_criteria.fill_between([median_achievability_criteria, max(criteria_achievability_vector)], median_effect_criteria, max(criteria_effect_vector), color='#78C850', alpha=0.3)
+            ax_criteria.fill_between([0, median_achievability_criteria], median_effect_criteria, max(criteria_effect_vector), color='#FDB147', alpha=0.3)
+            ax_criteria.fill_between([median_achievability_criteria, max(criteria_achievability_vector)], 0, median_effect_criteria, color='#FDB147', alpha=0.3)
+            ax_criteria.fill_between([0, median_achievability_criteria], 0, median_effect_criteria, color='#E57373', alpha=0.3)
+            
+            for i, criterion in enumerate(criteria_nodes):
+                ax_criteria.scatter(criteria_achievability_vector[i], criteria_effect_vector[i], color='blue')
+                ax_criteria.annotate(criterion, (criteria_achievability_vector[i], criteria_effect_vector[i]), textcoords="offset points", xytext=(10,10), ha='right')
+            
+            ax_criteria.xaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=0))
+            ax_criteria.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=0))
+            
+            ax_criteria.set_xlabel('Aggregate Achievability Weight (%)')
+            ax_criteria.set_ylabel('Aggregate Effect Weight (%)')
+            ax_criteria.set_title('Scatter Plot of Criteria Aggregate Weights (Percentages)')
+            ax_criteria.legend()
+            
+            st.pyplot(fig_criteria)
+            
             criteria_nodes = criteria_achievability_input  
             alternatives_nodes = alternatives_achievability_input
         
