@@ -138,8 +138,8 @@ def app():
     criteria_nodes = ['Criteria 1', 'Criteria 2']  
     alternatives_nodes = ['Alternative 1', 'Alternative 2']  
     criteria_alternative_relationship_diagram = {
-        'Criteria 1': ['Alternative 1', 'Alternative 2'],  # Relation between Criteria 1 and Alternatives
-        'Criteria 2': ['Alternative 1'],  # Relation between Criteria 2 and Alternative 1
+        'Criteria 1': ['Alternative 1', 'Alternative 2'],  
+        'Criteria 2': ['Alternative 1'],  
     }  
     
     
