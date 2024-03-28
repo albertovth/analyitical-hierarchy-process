@@ -10,7 +10,7 @@ Created on Sat Mar 23 19:14:26 2024
 ## Conceptual and troubleshooting support was provided by OpenAI's ChatGPT 4.0. The ideas
 ## and initial development were initiated by Alberto Valiente Thoresen, with ChatGPT 4.0
 ## helping to refine and troubleshoot specific issues. This collaboration
-## made possible the development of the dynamic and interactive application for ANP. 
+## made possible the development of the dynamic and interactive application for AHP. 
 ###
 
 import streamlit as st
