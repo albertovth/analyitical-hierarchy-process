@@ -40,11 +40,11 @@ def create_pairwise_comparison_matrix_from_grades(elements, grades):
             grade_i = grades.get(elements[i], 1)  
             grade_j = grades.get(elements[j], 1)  
             
-            if grade_j != 0:  
-                matrix[i, j] = grade_i / grade_j
-                matrix[j, i] = grade_j / grade_i
+            if grade_j != 0:
+                matrix[i, j] = grade_i / grade_j if grade_i != 0 else 0
+                matrix[j, i] = grade_j / grade_i if grade_i != 0 else np.inf
             else:
-                matrix[i, j] = 0  
+                matrix[i, j] = np.inf if grade_i != 0 else 0
                 matrix[j, i] = 0 if grade_i == 0 else np.inf  
 
     return matrix
