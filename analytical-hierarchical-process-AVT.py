@@ -6,11 +6,8 @@ Created on Sat Mar 23 19:14:26 2024
 @author: albertovth
 """
 ### 
-## The development of this Streamlit application for Analytical Hierarchy Process (AHP) was led by Alberto Valiente Thoresen. 
-## Conceptual and troubleshooting support was provided by OpenAI's ChatGPT 4.0. The ideas
-## and initial development were initiated by Alberto Valiente Thoresen, with ChatGPT 4.0
-## helping to refine and troubleshoot specific issues. This collaboration
-## made possible the development of the dynamic and interactive application for AHP. 
+## This Streamlit app for Analytical Hierarchy Process (AHP) was developed by Alberto Valiente Thoresen, 
+## with conceptual and troubleshooting support by OpenAI's ChatGPT 4.0. 
 ###
 
 import streamlit as st
