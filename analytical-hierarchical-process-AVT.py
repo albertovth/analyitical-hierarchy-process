@@ -172,7 +172,7 @@ def app():
      - **Calculate Weights:** This button calculates weights (as in a normalized priority vector) for alternatives and criteria in the hierarchy, both on achievability and effect.
      - **Visualize Priorities:** This is an integrated part of the button that calculates the weights, and it plots these in a way that makes it easy to visualize and prioritize between criteria and alternatives.
      
-     This tool can be used for people interested in using AHP in an easy and intuitive way, either for personal use, or professional or academic research.
+     This tool can be used by people interested in applying AHP in an easy and intuitive way, either for personal use, or professional or academic research.
           
      If you want to learn more about the analytical hierarchy process, as formulated by Thomas L. Saaty, see [this article](https://www.sciencedirect.com/science/article/pii/0270025587904738).
      
