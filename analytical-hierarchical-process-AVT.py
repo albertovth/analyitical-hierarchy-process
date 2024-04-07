@@ -165,7 +165,7 @@ def app():
      
      As a suggestion to make it easier to register the data: 
      Prepare your data in a worksheet as an adjacency matrix for each criterion, so that it is easier to get an overview. 
-     Although only allows manual registration of grades, depending on user feedback on needs, future models might make it possible to upload of CSV or XLSX files directly. This will make it easier to model more complex processes.
+     Although the app only allows manual registration of grades, depending on user feedback on needs, future models might make it possible to upload of CSV or XLSX files directly. This will make it easier to model more complex processes.
      
      ### Which results will you get from this app?
      - **Update Diagram:** This button allows you to update the diagram at any time, based on the criteria and alternatives you have registered.
