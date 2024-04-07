@@ -153,25 +153,26 @@ def app():
     diagram_placeholder.pyplot(fig)
     
     st.markdown('''
-    This application deviates slightly from the traditional method of grading pairwise comparisons. Instead, you can directly assign grades to individual criteria and alternatives, on the basis of their achievability and effect for the related node. The app then uses these grades to conduct pairwise comparisons automatically, ensuring completely consistent matrices, without the need for consistency metrics.            
-     ### How It Works (interactive form at the bottom of page)
-     1. **Design Your AHP Diagram:** Start by laying out the structure of your decision-making process.
-     2. **Specify Criteria and Alternatives:** Define the elements of your decision matrix.
-     3. **Grade Each Element:** Assign a grade to each criterion and alternative, focusing on achievability and effect. Please note, grades for multiple criteria and alternatives should be comma-separated, and in the same order as registered. The amount of grades should also match the elements being graded. For optimal function, be consistent in the way you assign grades, by using the same scale for all criteria and alternatives.
+    This application works a bit differently compared to the standard method of grading pairwise comparisons. In this app, you can instead directly assign grades to each individual criterion or alternative. This has to be done on two axes, that are used to evaluate each element in the hierarchy: achievability and effect. Then, the pairwise comparisons are made automatically by the app, based on ratios of grades. This ensures that the matrices are completely consistent, and it is not necessary to calculate consistency indicators, as in Saaty's classic AHP.            
+     ### This is how the app works (You can start making your AHP with the interactive form below)
+     1. **Design your AHP diagram:** This model has to reflect the structure of hierarchy.
+     2. **Specify the criteria and alternatives in the AHP:** With this step, you specify the elements of the hierarchy.
+     3. **Grade each element in the hiearchy on achievability and effect:** You have to give each criterion and alternative a grade from 1 to 9, both for achievability and effect. Please note that grades for several criteria and alternatives have to be comma-separated, and the grades have to follow the same order as the elements. Additionally, the number of grades registered should also match with the number of elements being graded. For best results, try to be consistent in the way you give grades for alternatives that influence several crieteria.
      
      To facilitate the input process, you can prepare your data using worksheets, making registration straightforward. Although currently grades are registered manually, and depending on user feedback on needs, future models might allow direct uploads of CSV or XLSX files, to simplify modelling more complex processes.
      
-     ### Features
-     - **Update Diagram:** A dedicated button allows you to refresh the diagram as needed during the grading process.
-     - **Calculate Weights:** Once your data is input, calculate the weights to see how criteria and alternatives stack up.
-     - **Visualize Priorities:** The app generates a scatter plot for easy visualization of priorities, based on your predefined criteria.
+     ### Functions in this app
+     - **Update Diagram:** This button allows you to update the visualization of the diagram, based on the criteria and alternatives you have registered.
+     - **Calculate Weights:** This button calculates weights (as in a normalized priority vector) for alternatives and criteria in the hierarchy, both on achievability and effect.
+     - **Visualize Priorities:** This is an integrated part of the button that calculates the weights, and it plots these in a way that makes it easy to visualize and prioritize between criteria and alternatives.
      
-     This tool is perfect for anyone looking to apply the AHP in a simplified and intuitive manner. Whether for academic, personal, or professional decisions, this app makes the AHP accessible and straightforward.
+     This tool can be used for people interested in using AHP in an easy and intuitive manner. 
+     Applications of this method range from personal use to professional and academic research.
      
-     For more on the analytical hierarchy process as conceived by Thomas L. Saaty, see [this article](https://www.sciencedirect.com/science/article/pii/0270025587904738).
+     For more details on the analytical hierarchy process as conceived by Thomas L. Saaty, see [this article](https://www.sciencedirect.com/science/article/pii/0270025587904738).
      
      ### Feedback
-     Have questions or suggestions? Feel free to contact me at [alberto@vthoresen.no](mailto:alberto@vthoresen.no) or visit [GitHub repository](https://github.com/albertovth/analyitical-hierarchy-process) for more information.
+     Do you have questions or suggestions? Please contact me at [alberto@vthoresen.no](mailto:alberto@vthoresen.no) or visit [GitHub repository](https://github.com/albertovth/analyitical-hierarchy-process) for more information.
      
      ''')            
     
