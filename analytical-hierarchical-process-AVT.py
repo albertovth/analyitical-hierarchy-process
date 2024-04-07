@@ -241,7 +241,7 @@ def app():
     
         unique_key_achievability = f"grades_achievability_{achievability_criterion}"
     
-        prompt_achievability = f"Register the achievability grades for all the alternatives that are related to: {achievability_criterion} ({alternatives_text}) separated by comma"
+        prompt_achievability = f"Register the achievability grades for all the alternatives that are related to: {achievability_criterion} ({alternatives_text}) separated by commas"
         achievability_grades_input = st.text_area(prompt_achievability, key=unique_key_achievability)
     
         alternative_achievability_grades[achievability_criterion] = input_to_grades_dict_for_alternatives(achievability_grades_input, related_achievability_alternatives)
@@ -253,7 +253,7 @@ def app():
     
         unique_key_effect = f"grades_effect_{effect_criterion}"
     
-        prompt_effect = f"Register the effect grades for all the alternatives that related to: {effect_criterion} ({alternatives_text}) separated by comma"
+        prompt_effect = f"Register the effect grades for all the alternatives that related to: {effect_criterion} ({alternatives_text}) separated by commas"
         effect_grades_input = st.text_area(prompt_effect, key=unique_key_effect)
     
         alternative_effect_grades[effect_criterion] = input_to_grades_dict_for_alternatives(effect_grades_input, related_effect_alternatives)
