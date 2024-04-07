@@ -183,7 +183,7 @@ def app():
     
     st.markdown('''
     ### Fill out the interactive form for AHP design and evaluation
-    You will find the buttons to update the process design and/or calculate weights and produce priority scatter plot below
+    You will find the buttons to update the process design and/or calculate weights and produce a priority scatter plot below
     ''')
     
     diagram_title_input=st.text_input('Register the title of your diagram', 'Give your AHP a title that sums up the process')
