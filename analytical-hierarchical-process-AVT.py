@@ -186,14 +186,14 @@ def app():
     You will find the buttons to update the process design and/or calculate weights and produce priority scatter plot below
     ''')
     
-    diagram_title_input=st.text_input('Enter the diagram title', 'Give your hierarchical process a descriptive title')
-    main_goal_input = st.text_input('Enter the main goal', 'What is the main goal of your hierarchical process?')
-    criteria_achievability_input = st.text_input('Enter criteria separated by comma', 'Program goal 1, Program goal 2, Program goal 3, Program goal 4').split(',')
+    diagram_title_input=st.text_input('Register the title of your diagram', 'Give your AHP a title that sums up the process')
+    main_goal_input = st.text_input('Register the main target goal of the AHP', 'What do you want to achieve with your AHP?')
+    criteria_achievability_input = st.text_input('Regsiter criteria. They have to be separated by commas', 'Program goal 1, Program goal 2, Program goal 3, Program goal 4').split(',')
     criteria_achievability_input = [c.strip() for c in criteria_achievability_input]
     criteria_effect_input = criteria_achievability_input.copy() 
     criteria_effect_input = [c.strip() for c in criteria_effect_input]
      
-    alternatives_achievability_input = st.text_input('Enter alternatives separated by comma', 'Project 1, Project 2, Project 3, Project 4, Project 5').split(',')
+    alternatives_achievability_input = st.text_input('Regsiter alternatives They have to be separated by commas', 'Project 1, Project 2, Project 3, Project 4, Project 5').split(',')
     alternatives_achievability_input = [a.strip() for a in alternatives_achievability_input]
     alternatives_effect_input = alternatives_achievability_input.copy()  
     alternatives_effect_input = [a.strip() for a in alternatives_effect_input]
@@ -201,7 +201,7 @@ def app():
     
     criteria_alternative_achievability_relationship = {}
     for index, achievability_criterion in enumerate(criteria_achievability_input):
-        prompt = f"Enter alternatives related to {achievability_criterion} separated by comma"
+        prompt = f"Register the alternatives that are related to {achievability_criterion}. They have to be separated by commas"
         
         alternatives_input = st.text_input(prompt, 'Project 1, Project 2, Project 3, Project 4, Project 5', key=f"ach_alt_achiev_{index}").split(',')
         criteria_alternative_achievability_relationship[achievability_criterion] = [a.strip() for a in alternatives_input]  
@@ -211,17 +211,17 @@ def app():
     
     if criteria_achievability_input:  
         criteria_names = ', '.join(criteria_achievability_input)
-        prompt_achievability = f'Enter achievability grades for pairwise comparisons of: {criteria_names}, separated by comma'
+        prompt_achievability = f'Register the grades for achievability to create pairwise comparison ratios for: {criteria_names}. They have to be separated by commas'
     else:
-            prompt_achievability = 'Enter achievability grades for pairwise comparisons, separated by comma (criteria not yet specified)'
+            prompt_achievability = 'Register the achievability grades to create pairwise comparison ratios, separated by comma (criteria not yet specified)'
     criteria_achievability_grades_input = st.text_area(prompt_achievability)
     
     
     if criteria_effect_input:  
         criteria_names = ', '.join(criteria_effect_input)
-        prompt_effect = f'Enter effect grades for pairwise comparisons of: {criteria_names}, separated by comma'
+        prompt_effect = f'Register the effect grades to create pairwise comparison ratios of: {criteria_names}, separated by comma'
     else:
-            prompt_effect = 'Enter effect grades for pairwise comparisons, separated by comma (criteria not yet specified)'
+            prompt_effect = 'Register the effect grades to create pairwise comparison ratios, separated by comma (criteria not yet specified)'
     criteria_effect_grades_input = st.text_area(prompt_effect)
     
     
@@ -241,7 +241,7 @@ def app():
     
         unique_key_achievability = f"grades_achievability_{achievability_criterion}"
     
-        prompt_achievability = f"Enter achievability grades for all alternatives related to: {achievability_criterion} ({alternatives_text}) separated by comma"
+        prompt_achievability = f"Register the achievability grades for all the alternatives that are related to: {achievability_criterion} ({alternatives_text}) separated by comma"
         achievability_grades_input = st.text_area(prompt_achievability, key=unique_key_achievability)
     
         alternative_achievability_grades[achievability_criterion] = input_to_grades_dict_for_alternatives(achievability_grades_input, related_achievability_alternatives)
@@ -253,7 +253,7 @@ def app():
     
         unique_key_effect = f"grades_effect_{effect_criterion}"
     
-        prompt_effect = f"Enter effect grades for all alternatives related to: {effect_criterion} ({alternatives_text}) separated by comma"
+        prompt_effect = f"Register the effect grades for all the alternatives that related to: {effect_criterion} ({alternatives_text}) separated by comma"
         effect_grades_input = st.text_area(prompt_effect, key=unique_key_effect)
     
         alternative_effect_grades[effect_criterion] = input_to_grades_dict_for_alternatives(effect_grades_input, related_effect_alternatives)
@@ -270,14 +270,14 @@ def app():
     
     criteria_alternative_relationship_diagram = criteria_alternative_achievability_relationship.copy()
 
-    if st.button('Update process design diagram (image at top of page)'):
+    if st.button('Update the AHP diagram (image at top of page)'):
            
         fig = draw_hierarchy_diagram(diagram_title, main_goal, criteria_nodes, alternatives_nodes, criteria_alternative_relationship_diagram)
     
         diagram_placeholder.pyplot(fig)
        
     
-    if st.button('Calculate Weights and generate priority scatter plot'):
+    if st.button('Calculate the weights and generate priority scatter plot'):
         try:
             synthetic_alternative_achievability_weights = {}  
             synthetic_alternative_effect_weights = {}  
