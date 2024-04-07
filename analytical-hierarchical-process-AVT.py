@@ -164,7 +164,7 @@ def app():
      This makes the resulting matrices completely consistent. Therefore, it is not necessary to calculate consistency indicators, as in Saaty's classic AHP. 
      
      As a suggestion to make it easier to register the data: 
-     Prepare your data in a worksheet as an adjacency matrix for ech criterion, so that it is easier to get an overview. 
+     Prepare your data in a worksheet as an adjacency matrix for each criterion, so that it is easier to get an overview. 
      Although only allows manual registration of grades, depending on user feedback on needs, future models might make it possible to upload of CSV or XLSX files directly. This will make it easier to model more complex processes.
      
      ### Which results will you get from this app?
