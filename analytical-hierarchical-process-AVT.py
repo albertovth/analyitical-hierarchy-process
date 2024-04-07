@@ -155,7 +155,7 @@ def app():
     st.markdown('''
                
      ### You can start making your AHP with the interactive form below. These are the steps:
-     1. **Design your AHP diagram:** This model has to reflect the structure of hierarchy.
+     1. **Design your AHP diagram:** This model has to reflect the structure of the hierarchy.
      2. **Specify the criteria and alternatives in the AHP:** With this step, you specify the elements of the hierarchy.
      3. **Grade each element in the hiearchy on achievability and effect:** You have to give each criterion and alternative a grade from 1 to 9, both for achievability and effect. Please note that grades for several criteria and alternatives have to be comma-separated, and the grades have to follow the same order as the elements. Additionally, the number of grades registered should also match with the number of elements being graded. For best results, try to be consistent in the way you give grades for alternatives that influence several crieteria.
 
