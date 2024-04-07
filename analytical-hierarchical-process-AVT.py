@@ -211,7 +211,7 @@ def app():
     
     if criteria_achievability_input:  
         criteria_names = ', '.join(criteria_achievability_input)
-        prompt_achievability = f'Register the grades for achievability to create pairwise comparison ratios for: {criteria_names}. They have to be separated by commas'
+        prompt_achievability = f'Register the chievability grades to create pairwise comparison ratios for: {criteria_names}, separated by commas'
     else:
             prompt_achievability = 'Register the achievability grades to create pairwise comparison ratios, separated by comma (criteria not yet specified)'
     criteria_achievability_grades_input = st.text_area(prompt_achievability)
@@ -219,9 +219,9 @@ def app():
     
     if criteria_effect_input:  
         criteria_names = ', '.join(criteria_effect_input)
-        prompt_effect = f'Register the effect grades to create pairwise comparison ratios of: {criteria_names}, separated by comma'
+        prompt_effect = f'Register the effect grades to create pairwise comparison ratios of: {criteria_names}, separated by commas'
     else:
-            prompt_effect = 'Register the effect grades to create pairwise comparison ratios, separated by comma (criteria not yet specified)'
+            prompt_effect = 'Register the effect grades to create pairwise comparison ratios, separated by commas (criteria not yet specified)'
     criteria_effect_grades_input = st.text_area(prompt_effect)
     
     
