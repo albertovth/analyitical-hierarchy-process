@@ -182,7 +182,7 @@ def app():
      ''')            
     
     st.markdown('''
-    ### Interactive Process Design and Evaluation Form
+    ### Fill out the interactive form for AHP design and evaluation
     You will find the buttons to update the process design and/or calculate weights and produce priority scatter plot below
     ''')
     
