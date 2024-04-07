@@ -188,12 +188,12 @@ def app():
     
     diagram_title_input=st.text_input('Register the title of your diagram', 'Give your AHP a title that sums up the process')
     main_goal_input = st.text_input('Register the main target goal of the AHP', 'What do you want to achieve with your AHP?')
-    criteria_achievability_input = st.text_input('Regsiter criteria. They have to be separated by commas', 'Program goal 1, Program goal 2, Program goal 3, Program goal 4').split(',')
+    criteria_achievability_input = st.text_input('Regsiter the criteria. They have to be separated by commas', 'Program goal 1, Program goal 2, Program goal 3, Program goal 4').split(',')
     criteria_achievability_input = [c.strip() for c in criteria_achievability_input]
     criteria_effect_input = criteria_achievability_input.copy() 
     criteria_effect_input = [c.strip() for c in criteria_effect_input]
      
-    alternatives_achievability_input = st.text_input('Regsiter alternatives They have to be separated by commas', 'Project 1, Project 2, Project 3, Project 4, Project 5').split(',')
+    alternatives_achievability_input = st.text_input('Regsiter the alternatives. They have to be separated by commas', 'Project 1, Project 2, Project 3, Project 4, Project 5').split(',')
     alternatives_achievability_input = [a.strip() for a in alternatives_achievability_input]
     alternatives_effect_input = alternatives_achievability_input.copy()  
     alternatives_effect_input = [a.strip() for a in alternatives_effect_input]
