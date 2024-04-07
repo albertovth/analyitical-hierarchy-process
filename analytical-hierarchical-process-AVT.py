@@ -153,23 +153,28 @@ def app():
     diagram_placeholder.pyplot(fig)
     
     st.markdown('''
-    This application works a bit differently compared to the standard method of grading pairwise comparisons. In this app, you can instead directly assign grades to each individual criterion or alternative. This has to be done on two axes, that are used to evaluate each element in the hierarchy: achievability and effect. Then, the pairwise comparisons are made automatically by the app, based on ratios of grades. This ensures that the matrices are completely consistent, and it is not necessary to calculate consistency indicators, as in Saaty's classic AHP.            
-     ### This is how the app works (You can start making your AHP with the interactive form below)
+               
+     ### You can start making your AHP with the interactive form below. These are the steps:
      1. **Design your AHP diagram:** This model has to reflect the structure of hierarchy.
      2. **Specify the criteria and alternatives in the AHP:** With this step, you specify the elements of the hierarchy.
      3. **Grade each element in the hiearchy on achievability and effect:** You have to give each criterion and alternative a grade from 1 to 9, both for achievability and effect. Please note that grades for several criteria and alternatives have to be comma-separated, and the grades have to follow the same order as the elements. Additionally, the number of grades registered should also match with the number of elements being graded. For best results, try to be consistent in the way you give grades for alternatives that influence several crieteria.
+
+     As you can see, based on 3., the app works a bit differently than the standard AHP method of grading pairwise comparisons. 
+     In this app, the pairwise comparisons are made automatically by the app, based on ratios of grades on achievability and effect. 
+     This makes the resulting matrices completely consistent. Therefore, it is not necessary to calculate consistency indicators, as in Saaty's classic AHP. 
      
-     To facilitate the input process, you can prepare your data using worksheets, making registration straightforward. Although currently grades are registered manually, and depending on user feedback on needs, future models might allow direct uploads of CSV or XLSX files, to simplify modelling more complex processes.
+     As a suggestion to make it easier to register the data: 
+     Prepare your data in a worksheet as an adjacency matrix for ech criterion, so that it is easier to get an overview. 
+     Although only allows manual registration of grades, depending on user feedback on needs, future models might make it possible to upload of CSV or XLSX files directly. This will make it easier to model more complex processes.
      
-     ### Functions in this app
-     - **Update Diagram:** This button allows you to update the visualization of the diagram, based on the criteria and alternatives you have registered.
+     ### Which results will you get from this app?
+     - **Update Diagram:** This button allows you to update the diagram at any time, based on the criteria and alternatives you have registered.
      - **Calculate Weights:** This button calculates weights (as in a normalized priority vector) for alternatives and criteria in the hierarchy, both on achievability and effect.
      - **Visualize Priorities:** This is an integrated part of the button that calculates the weights, and it plots these in a way that makes it easy to visualize and prioritize between criteria and alternatives.
      
-     This tool can be used for people interested in using AHP in an easy and intuitive manner. 
-     Applications of this method range from personal use to professional and academic research.
-     
-     For more details on the analytical hierarchy process as conceived by Thomas L. Saaty, see [this article](https://www.sciencedirect.com/science/article/pii/0270025587904738).
+     This tool can be used for people interested in using AHP in an easy and intuitive way, either for personal use, or professional or academic research.
+          
+     If you want to learn more about the analytical hierarchy process, as formulated by Thomas L. Saaty, see [this article](https://www.sciencedirect.com/science/article/pii/0270025587904738).
      
      ### Feedback
      Do you have questions or suggestions? Please contact me at [alberto@vthoresen.no](mailto:alberto@vthoresen.no) or visit [GitHub repository](https://github.com/albertovth/analyitical-hierarchy-process) for more information.
