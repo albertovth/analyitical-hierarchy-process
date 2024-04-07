@@ -133,7 +133,7 @@ def app():
     st.title('Analytical Hierarchical Process with Criteria-Alternative Relationships')
     
     st.markdown('''
-    ### Welcome to a Simplified Analytical Hierarchy Process (AHP) Tool, a user-friendly application inspired by the groundbreaking work of mathematician Thomas L. Saaty. This tool provides a straightforward approach to the AHP, allowing you to create your own AHP-diagrams, define criteria and alternatives, and grade each based on achievability and effect. You can update the diagram below by filling out the form.
+    ### This is a simpliefied tool to perform Analytical Hierarchy Process (AHP). The app is based on the work by mathematician Thomas L. Saaty. With this tool you can make your own AHP hierarchy diagrams, that include criteria and alternatives, and grade each from 1 - 9,  based on achievability and effect. You can update the diagram below by filling out the form.
         ''')
         
     diagram_title='Create and update your hierarchy Process diagram with the fields below'
